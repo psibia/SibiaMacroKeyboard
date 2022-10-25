@@ -15,7 +15,7 @@ namespace SibiaMacroKeyboard.Tests
 
 
             // action
-            int actual = Convert.ToInt32(ConverterStringToEnum.ToEnum<WindowsInput.Native.VirtualKeyCode>("SHIFT"));
+            int actual = Convert.ToInt32(ConverterStringToEnum.ToEnum<WindowsInput.Native.VirtualKeyCode>(text));
 
             // assert
             Assert.AreEqual(expected, actual);
