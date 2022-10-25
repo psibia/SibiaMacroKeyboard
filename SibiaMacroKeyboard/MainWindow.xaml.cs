@@ -225,172 +225,175 @@ namespace SibiaMacroKeyboard
 
         async private void GetCommand()
         {
+            try { 
             string commandList = Properties.Settings.Default.configMacros[keyPadSelected];
             string[] subCommand = commandList.Split('\n');
-            for (int i = 0; i < subCommand.Length; i++)
-            {
-                string targetCommand = subCommand[i];
-                // MessageBox.Show($"Substring: {targetCommand}");
-                switch (targetCommand)
+                for (int i = 0; i < subCommand.Length; i++)
                 {
-                    case string command when command.StartsWith("start ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 6);
-                        ProcessStartInfo infoStartProcess = new ProcessStartInfo();
-                        // Костыль, который удаляет знак переноса каретки, если запускаемых процессов больше, чем 1 или после адреса на файл стоит знак переноса картеки  
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        infoStartProcess.FileName = targetCommand;
-                        Process.Start(infoStartProcess);
-                        break;
+                    string targetCommand = subCommand[i];
+                    // MessageBox.Show($"Substring: {targetCommand}");
+                    switch (targetCommand)
+                    {
+                        case string command when command.StartsWith("start ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 6);
+                            ProcessStartInfo infoStartProcess = new ProcessStartInfo();
+                            // Костыль, который удаляет знак переноса каретки, если запускаемых процессов больше, чем 1 или после адреса на файл стоит знак переноса картеки  
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            infoStartProcess.FileName = targetCommand;
+                            Process.Start(infoStartProcess);
+                            break;
 
-                    case string command when command.StartsWith("sound ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 6);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\" + targetCommand;
-                        player.Play();
-                        break;
+                        case string command when command.StartsWith("sound ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 6);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + @"\Sounds\" + targetCommand;
+                            player.Play();
+                            break;
 
-                    case string command when command.StartsWith("url ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 4);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        Process.Start(targetCommand);
-                        break;
+                        case string command when command.StartsWith("url ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 4);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            Process.Start(targetCommand);
+                            break;
 
-                    case string command when command.StartsWith("key ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 4);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        if (targetCommand.Length == 1)
-                            targetCommand = "VK_" + targetCommand;
-                        simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
-                        break;
+                        case string command when command.StartsWith("key ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 4);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            if (targetCommand.Length == 1)
+                                targetCommand = "VK_" + targetCommand;
+                            simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            break;
 
-                    case string command when command.StartsWith("keySeries ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 10);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        bool result = int.TryParse(targetCommand.Substring(0, 2), out int j);
-                        targetCommand = targetCommand.Remove(0, 3);
-                        if (targetCommand.Length == 1)
-                            targetCommand = "VK_" + targetCommand;
-                        if (result)
-                        {
-                            for (int k = 0; k < j; k++)
-                                simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
-                        }
-                        break;
+                        case string command when command.StartsWith("keySeries ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 10);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            bool result = int.TryParse(targetCommand.Substring(0, 2), out int j);
+                            targetCommand = targetCommand.Remove(0, 3);
+                            if (targetCommand.Length == 1)
+                                targetCommand = "VK_" + targetCommand;
+                            if (result)
+                            {
+                                for (int k = 0; k < j; k++)
+                                    simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            }
+                            break;
 
-                    case string command when command.StartsWith("keyDown ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 8);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        if (targetCommand.Length == 1)
-                            targetCommand = "VK_" + targetCommand;
-                        simulator.Keyboard.KeyDown(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
-                        break;
+                        case string command when command.StartsWith("keyDown ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 8);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            if (targetCommand.Length == 1)
+                                targetCommand = "VK_" + targetCommand;
+                            simulator.Keyboard.KeyDown(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            break;
 
-                    case string command when command.StartsWith("keyUp ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 6);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        if (targetCommand.Length == 1)
-                            targetCommand = "VK_" + targetCommand;
-                        simulator.Keyboard.KeyUp(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
-                        break;
+                        case string command when command.StartsWith("keyUp ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 6);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            if (targetCommand.Length == 1)
+                                targetCommand = "VK_" + targetCommand;
+                            simulator.Keyboard.KeyUp(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            break;
 
-                    case string command when command.StartsWith("text ", StringComparison.OrdinalIgnoreCase):
-                        targetCommand = targetCommand.Remove(0, 5);
-                        if (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        simulator.Keyboard.TextEntry(targetCommand);
-                        break;
+                        case string command when command.StartsWith("text ", StringComparison.OrdinalIgnoreCase):
+                            targetCommand = targetCommand.Remove(0, 5);
+                            if (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            simulator.Keyboard.TextEntry(targetCommand);
+                            break;
 
-                    case string command when command.StartsWith("delay "):
-                        targetCommand = targetCommand.Remove(0, 6);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        if (int.TryParse(targetCommand, out int value))
-                        {
-                            await Task.Delay(value);
-                            // MessageBox.Show("Completed");
-                        }
-                        break;
+                        case string command when command.StartsWith("delay "):
+                            targetCommand = targetCommand.Remove(0, 6);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            if (int.TryParse(targetCommand, out int value))
+                            {
+                                await Task.Delay(value);
+                                // MessageBox.Show("Completed");
+                            }
+                            break;
 
-                    case string command when command.StartsWith("cursor "):
-                        targetCommand = targetCommand.Remove(0, 7);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        string[] sub = targetCommand.Split(' ');
-                        var X = int.Parse(sub[0]) * 65535 / SystemParameters.PrimaryScreenWidth;
-                        var Y = int.Parse(sub[1]) * 65535 / SystemParameters.PrimaryScreenHeight;
-                        simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(Convert.ToDouble(X), Convert.ToDouble(Y));
-                        break;
+                        case string command when command.StartsWith("cursor "):
+                            targetCommand = targetCommand.Remove(0, 7);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            string[] sub = targetCommand.Split(' ');
+                            var X = int.Parse(sub[0]) * 65535 / SystemParameters.PrimaryScreenWidth;
+                            var Y = int.Parse(sub[1]) * 65535 / SystemParameters.PrimaryScreenHeight;
+                            simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(Convert.ToDouble(X), Convert.ToDouble(Y));
+                            break;
 
-                    case string command when command.StartsWith("cursorCopy", StringComparison.OrdinalIgnoreCase):
-                        cursorBuffer = GetCursorPosition();
-                        break;
+                        case string command when command.StartsWith("cursorCopy", StringComparison.OrdinalIgnoreCase):
+                            cursorBuffer = GetCursorPosition();
+                            break;
 
-                    case string command when command.StartsWith("cursorPaste", StringComparison.OrdinalIgnoreCase):
-                        simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(cursorBuffer.X * 65535 / SystemParameters.PrimaryScreenWidth, 
-                            cursorBuffer.Y * 65535 / SystemParameters.PrimaryScreenHeight);
-                        break;
+                        case string command when command.StartsWith("cursorPaste", StringComparison.OrdinalIgnoreCase):
+                            simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(cursorBuffer.X * 65535 / SystemParameters.PrimaryScreenWidth,
+                                cursorBuffer.Y * 65535 / SystemParameters.PrimaryScreenHeight);
+                            break;
 
-                    case string command when command.StartsWith("mouseDownLeft"):
-                        simulator.Mouse.LeftButtonDown();
-                        break;
+                        case string command when command.StartsWith("mouseDownLeft"):
+                            simulator.Mouse.LeftButtonDown();
+                            break;
 
-                    case string command when command.StartsWith("mouseUpLeft"):
-                        simulator.Mouse.LeftButtonUp();
-                        break;
+                        case string command when command.StartsWith("mouseUpLeft"):
+                            simulator.Mouse.LeftButtonUp();
+                            break;
 
-                    case string command when command.StartsWith("mouseClickLeft"):
-                        simulator.Mouse.LeftButtonClick();
-                        break;
+                        case string command when command.StartsWith("mouseClickLeft"):
+                            simulator.Mouse.LeftButtonClick();
+                            break;
 
-                    case string command when command.StartsWith("mouseDoubleClickLeft"):
-                        simulator.Mouse.LeftButtonDoubleClick();
-                        break;
+                        case string command when command.StartsWith("mouseDoubleClickLeft"):
+                            simulator.Mouse.LeftButtonDoubleClick();
+                            break;
 
-                    case string command when command.StartsWith("mouseDownRight"):
-                        simulator.Mouse.RightButtonDown();
-                        break;
+                        case string command when command.StartsWith("mouseDownRight"):
+                            simulator.Mouse.RightButtonDown();
+                            break;
 
-                    case string command when command.StartsWith("mouseUpRight"):
-                        simulator.Mouse.RightButtonUp();
-                        break;
+                        case string command when command.StartsWith("mouseUpRight"):
+                            simulator.Mouse.RightButtonUp();
+                            break;
 
-                    case string command when command.StartsWith("mouseClickRight"):
-                        simulator.Mouse.RightButtonClick();
-                        break;
+                        case string command when command.StartsWith("mouseClickRight"):
+                            simulator.Mouse.RightButtonClick();
+                            break;
 
-                    case string command when command.StartsWith("mouseDoubleClickRight"):
-                        simulator.Mouse.RightButtonDoubleClick();
-                        break;
+                        case string command when command.StartsWith("mouseDoubleClickRight"):
+                            simulator.Mouse.RightButtonDoubleClick();
+                            break;
 
-                    case string command when command.StartsWith("vertScroll "):
-                        targetCommand = targetCommand.Remove(0, 11);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        simulator.Mouse.VerticalScroll(int.Parse(targetCommand));
-                        break;
+                        case string command when command.StartsWith("vertScroll "):
+                            targetCommand = targetCommand.Remove(0, 11);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            simulator.Mouse.VerticalScroll(int.Parse(targetCommand));
+                            break;
 
-                    case string command when command.StartsWith("horScroll "):
-                        targetCommand = targetCommand.Remove(0, 10);
-                        while (targetCommand[targetCommand.Length - 1] == '\r')
-                            targetCommand = targetCommand.Remove(targetCommand.Length - 1);
-                        simulator.Mouse.VerticalScroll(int.Parse(targetCommand));
-                        break;
-                }
+                        case string command when command.StartsWith("horScroll "):
+                            targetCommand = targetCommand.Remove(0, 10);
+                            while (targetCommand[targetCommand.Length - 1] == '\r')
+                                targetCommand = targetCommand.Remove(targetCommand.Length - 1);
+                            simulator.Mouse.VerticalScroll(int.Parse(targetCommand));
+                            break;
+                    }
+                } 
             }
+            catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.StackTrace); }
         }
 
         private void COM_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender == COM)
+            try
             {
-                try
+                if (sender == COM)
                 {
                     if (sp.IsOpen)
                         sp.Close();
@@ -403,69 +406,65 @@ namespace SibiaMacroKeyboard
                         Properties.Settings.Default.Save();
                     }
                 }
-                catch (Exception ex)
+                else if (sender == AutoConnect && initialization == false)
                 {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            else if (sender == AutoConnect && initialization == false)
-            {
-                if (AutoConnect.SelectedIndex == 0)
-                {
-                    Properties.Settings.Default.AutoConnect = 0;
-                    Properties.Settings.Default.Save();
-                    MessageBox.Show("Автоматическое подключение к COM-порту отключено. При повторном запуске приложения COM-порт необходимо выбрать вручную");
-                }
-                else if (AutoConnect.SelectedIndex == 1)
-                {
-                    Properties.Settings.Default.AutoConnect = 1;
-                    Properties.Settings.Default.Save();
-                    MessageBox.Show("При следующем запуске приложения произойдет автоматическое подключение к последнему выбранному COM-порту");
-                }
-            }
-            else if (sender == AppStartup && initialization == false)
-            {
-                switch (AppStartup.SelectedIndex)
-                {
-                    case 0:
-                        SetAutorun(false, Assembly.GetExecutingAssembly().Location);
-                        Properties.Settings.Default.AppStartup = 0;
+                    if (AutoConnect.SelectedIndex == 0)
+                    {
+                        Properties.Settings.Default.AutoConnect = 0;
                         Properties.Settings.Default.Save();
-                        MessageBox.Show("Приложение удалено из автозагрузки");
-                        break;
-                    case 1:
-                        SetAutorun(true, Assembly.GetExecutingAssembly().Location);
-                        Properties.Settings.Default.AppStartup = 1;
+                        MessageBox.Show("Автоматическое подключение к COM-порту отключено. При повторном запуске приложения COM-порт необходимо выбрать вручную");
+                    }
+                    else if (AutoConnect.SelectedIndex == 1)
+                    {
+                        Properties.Settings.Default.AutoConnect = 1;
                         Properties.Settings.Default.Save();
-                        MessageBox.Show("Приложение добавлено в автозагрузку. При запуске Windows будет открыто окно");
-                        break;
-                    case 2:
-                        SetAutorun(true, Assembly.GetExecutingAssembly().Location);
-                        Properties.Settings.Default.AppStartup = 2;
+                        MessageBox.Show("При следующем запуске приложения произойдет автоматическое подключение к последнему выбранному COM-порту");
+                    }
+                }
+                else if (sender == AppStartup && initialization == false)
+                {
+                    switch (AppStartup.SelectedIndex)
+                    {
+                        case 0:
+                            SetAutorun(false, Assembly.GetExecutingAssembly().Location);
+                            Properties.Settings.Default.AppStartup = 0;
+                            Properties.Settings.Default.Save();
+                            MessageBox.Show("Приложение удалено из автозагрузки");
+                            break;
+                        case 1:
+                            SetAutorun(true, Assembly.GetExecutingAssembly().Location);
+                            Properties.Settings.Default.AppStartup = 1;
+                            Properties.Settings.Default.Save();
+                            MessageBox.Show("Приложение добавлено в автозагрузку. При запуске Windows будет открыто окно");
+                            break;
+                        case 2:
+                            SetAutorun(true, Assembly.GetExecutingAssembly().Location);
+                            Properties.Settings.Default.AppStartup = 2;
+                            Properties.Settings.Default.Save();
+                            MessageBox.Show("Приложение добавлено в автозагрузку. При запуске Windows оно будет запущено в фоновом режиме");
+                            break;
+                    }
+                }
+                else if (sender == TopmostBox && initialization == false)
+                {
+                    if (TopmostBox.SelectedIndex == 0)
+                    {
+                        this.Topmost = false;
+                        Properties.Settings.Default.TopMost = false;
                         Properties.Settings.Default.Save();
-                        MessageBox.Show("Приложение добавлено в автозагрузку. При запуске Windows оно будет запущено в фоновом режиме");
-                        break;
+                        MessageBox.Show("Выбран режим работы с внешней вклавиатурой\nОкно НЕ будет отображаться поверх других, а нажатие ЛКМ на кнопке в приложении НЕ вызывает срабатывание макроса");
+                    }
+                    else if (TopmostBox.SelectedIndex == 1)
+                    {
+                        this.Topmost = true;
+                        Properties.Settings.Default.TopMost = true;
+                        Properties.Settings.Default.Save();
+                        MessageBox.Show("Выбран режим работы с виртуальной вклавиатурой\nОкно будет отображаться поверх других, а нажатие ЛКМ на кнопке в приложении вызывает срабатывание записанного для неё макроса");
+                    }
                 }
-            }
-            else if (sender == TopmostBox && initialization == false)
-            {
-                if (TopmostBox.SelectedIndex == 0)
-                {
-                    this.Topmost = false;
-                    Properties.Settings.Default.TopMost = false;
-                    Properties.Settings.Default.Save();
-                    MessageBox.Show("Выбран режим работы с внешней вклавиатурой\nОкно НЕ будет отображаться поверх других, а нажатие ЛКМ на кнопке в приложении НЕ вызывает срабатывание макроса");
-                }
-                else if (TopmostBox.SelectedIndex == 1)
-                {
-                    this.Topmost = true;
-                    Properties.Settings.Default.TopMost = true;
-                    Properties.Settings.Default.Save();
-                    MessageBox.Show("Выбран режим работы с виртуальной вклавиатурой\nОкно будет отображаться поверх других, а нажатие ЛКМ на кнопке в приложении вызывает срабатывание записанного для неё макроса");
-                }
-            }
+            } catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.StackTrace); }
         }
-        private void ComboBoxInit()
+        private void ComboBoxInit() // Здесь мы инициализируем все комбо-боксы из настроек (только при старте приложения)
         {
             try
             {
@@ -480,7 +479,7 @@ namespace SibiaMacroKeyboard
                     this.Hide();
                 
                 initialization = false;
-            } catch (Exception ex) { MessageBox.Show(ex.Message); }
+            } catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.StackTrace); }
         }
 
         public bool SetAutorun(bool autorun, string path)
@@ -519,7 +518,7 @@ namespace SibiaMacroKeyboard
             this.Close();
         }
 
-
+        #region // Определение текущего положения курсора относительно экрана
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -540,7 +539,6 @@ namespace SibiaMacroKeyboard
             // Если нужна обработка ошибок:
             // bool success = GetCursorPos(out lpPoint);
             // if (!success)
-
             return lpPoint;
         }
         private void ConfigText_KeyDown(object sender, KeyEventArgs e)
@@ -553,6 +551,7 @@ namespace SibiaMacroKeyboard
             }
         }
     }
+    #endregion
     public static class EnumConverter
     {
         public static T ToEnum<T>(this string value)
