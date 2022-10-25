@@ -264,7 +264,7 @@ namespace SibiaMacroKeyboard
                                 targetCommand = targetCommand.Remove(targetCommand.Length - 1);
                             if (targetCommand.Length == 1)
                                 targetCommand = "VK_" + targetCommand;
-                            simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            simulator.Keyboard.KeyPress(ConverterStringToEnum.ToEnum<VirtualKeyCode>(targetCommand));
                             break;
 
                         case string command when command.StartsWith("keySeries ", StringComparison.OrdinalIgnoreCase):
@@ -278,7 +278,7 @@ namespace SibiaMacroKeyboard
                             if (result)
                             {
                                 for (int k = 0; k < j; k++)
-                                    simulator.Keyboard.KeyPress(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                                    simulator.Keyboard.KeyPress(ConverterStringToEnum.ToEnum<VirtualKeyCode>(targetCommand));
                             }
                             break;
 
@@ -288,7 +288,7 @@ namespace SibiaMacroKeyboard
                                 targetCommand = targetCommand.Remove(targetCommand.Length - 1);
                             if (targetCommand.Length == 1)
                                 targetCommand = "VK_" + targetCommand;
-                            simulator.Keyboard.KeyDown(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            simulator.Keyboard.KeyDown(ConverterStringToEnum.ToEnum<VirtualKeyCode>(targetCommand));
                             break;
 
                         case string command when command.StartsWith("keyUp ", StringComparison.OrdinalIgnoreCase):
@@ -297,7 +297,7 @@ namespace SibiaMacroKeyboard
                                 targetCommand = targetCommand.Remove(targetCommand.Length - 1);
                             if (targetCommand.Length == 1)
                                 targetCommand = "VK_" + targetCommand;
-                            simulator.Keyboard.KeyUp(EnumConverter.ToEnum<VirtualKeyCode>(targetCommand));
+                            simulator.Keyboard.KeyUp(ConverterStringToEnum.ToEnum<VirtualKeyCode>(targetCommand));
                             break;
 
                         case string command when command.StartsWith("text ", StringComparison.OrdinalIgnoreCase):
@@ -551,13 +551,6 @@ namespace SibiaMacroKeyboard
         }
     }
     #endregion
-    public static class EnumConverter
-    {
-        public static T ToEnum<T>(this string value)
-        {
-            return (T)Enum.Parse(typeof(T), value, true);
-        }
-    }
 }
 
 
