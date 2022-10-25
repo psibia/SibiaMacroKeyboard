@@ -72,15 +72,22 @@ namespace SibiaMacroKeyboard
             switch (sender)
             {
                 case Button btn when btn == BtnHelp:
-                    ProcessStartInfo infoStartProcess = new ProcessStartInfo();
-                    infoStartProcess.FileName = AppDomain.CurrentDomain.BaseDirectory + "readme.txt";
-                    Process.Start(infoStartProcess);
+                    try
+                    {
+                        ProcessStartInfo infoStartProcess = new ProcessStartInfo();
+                        infoStartProcess.FileName = AppDomain.CurrentDomain.BaseDirectory + "readme.txt";
+                        Process.Start(infoStartProcess);
+                    } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     break;
 
                 case Button btn when btn == BtnSave:
-                    Properties.Settings.Default.configMacros[keyPadSelected] = ConfigText.Text;
-                    Properties.Settings.Default.Save();
-                    MessageBox.Show("Макрос сохранен");
+                    try 
+                    {
+                        Properties.Settings.Default.configMacros[keyPadSelected] = ConfigText.Text;
+                        Properties.Settings.Default.Save();
+                        MessageBox.Show("Макрос сохранен");
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
                     break;
 
                 case Button btn when btn == BtnTray:
@@ -92,13 +99,17 @@ namespace SibiaMacroKeyboard
                     break;
 
                 case Button btn when btn == BtnSettings:
-                    if (ConfigText.Visibility == Visibility.Visible)
+                    try 
                     {
-                        ConfigText.Visibility = Visibility.Hidden;
-                        ports = SerialPort.GetPortNames();
-            COM.ItemsSource = ports;
+                        if (ConfigText.Visibility == Visibility.Visible)
+                        {
+                            ConfigText.Visibility = Visibility.Hidden;
+                            ports = SerialPort.GetPortNames();
+                            COM.ItemsSource = ports;
+                        }
+                        else ConfigText.Visibility = Visibility.Visible;
                     }
-                    else ConfigText.Visibility = Visibility.Visible;
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
                     break;
             }             
         }
