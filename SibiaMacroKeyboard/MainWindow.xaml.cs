@@ -37,6 +37,8 @@ namespace SibiaMacroKeyboard
         byte keyPadSelected = 0;
         bool initialization = true;
 
+        Point cursorBuffer = default;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -313,6 +315,15 @@ namespace SibiaMacroKeyboard
                         var X = int.Parse(sub[0]) * 65535 / SystemParameters.PrimaryScreenWidth;
                         var Y = int.Parse(sub[1]) * 65535 / SystemParameters.PrimaryScreenHeight;
                         simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(Convert.ToDouble(X), Convert.ToDouble(Y));
+                        break;
+
+                    case string command when command.StartsWith("cursorCopy", StringComparison.OrdinalIgnoreCase):
+                        cursorBuffer = GetCursorPosition();
+                        break;
+
+                    case string command when command.StartsWith("cursorPaste", StringComparison.OrdinalIgnoreCase):
+                        simulator.Mouse.MoveMouseToPositionOnVirtualDesktop(cursorBuffer.X * 65535 / SystemParameters.PrimaryScreenWidth, 
+                            cursorBuffer.Y * 65535 / SystemParameters.PrimaryScreenHeight);
                         break;
 
                     case string command when command.StartsWith("mouseDownLeft"):
