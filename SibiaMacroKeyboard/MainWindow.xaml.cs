@@ -77,7 +77,7 @@ namespace SibiaMacroKeyboard
                         ProcessStartInfo infoStartProcess = new ProcessStartInfo();
                         infoStartProcess.FileName = AppDomain.CurrentDomain.BaseDirectory + "readme.txt";
                         Process.Start(infoStartProcess);
-                    } catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    } catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.Source); }
                     break;
 
                 case Button btn when btn == BtnSave:
@@ -87,7 +87,7 @@ namespace SibiaMacroKeyboard
                         Properties.Settings.Default.Save();
                         MessageBox.Show("Макрос сохранен");
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.Source); }
                     break;
 
                 case Button btn when btn == BtnTray:
@@ -114,7 +114,6 @@ namespace SibiaMacroKeyboard
             }             
         }
 
-        
 
         private void KeyPad_Click(object sender, RoutedEventArgs e)
         {
@@ -217,8 +216,8 @@ namespace SibiaMacroKeyboard
                         GetCommand();
                     break;
             }
-        }
-        void KeyPadSelectedChanged()
+        } // Обработка действий при нажатии на квадратную кнопку слева (которых 12 штук)
+        void KeyPadSelectedChanged() // Отрисовка текста макроса для соответствующей кнопки
         {
             ConfigText.Text = Properties.Settings.Default.configMacros[keyPadSelected];
         }
@@ -387,7 +386,7 @@ namespace SibiaMacroKeyboard
                 } 
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); MessageBox.Show(ex.StackTrace); }
-        }
+        } // Макрос-команды
 
         private void COM_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
