@@ -1,0 +1,41 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SibiaMacroKeyboard.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="configMacros" Type="System.String[]" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+  &lt;string&gt;// Начните вводить параметры макроса с новой строки:&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="COM" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AutoConnect" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AppStartup" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LeftScreen" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TopScreen" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TopMost" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

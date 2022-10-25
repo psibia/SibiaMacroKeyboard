@@ -1,0 +1,238 @@
+﻿<Window x:Class="SibiaMacroKeyboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SibiaMacroKeyboard"
+        xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        mc:Ignorable="d"
+        Title="Macro Keyboard" Height="500" Width="800"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="/Icons/background_dark.png"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <!--Измененный стиль TextBox для ввода макросов-->
+        <Style x:Key="TextBoxManualColorStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="SelectionTextBrush" Value="{x:Null}"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Измененный стиль для кнопок-->
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border Name="MenuBorder" SnapsToDevicePixels="True" BorderBrush="Transparent" Background="{TemplateBinding Background}" BorderThickness="0,0,0,2" >
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsFocused" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter TargetName="MenuBorder" Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="Transparent" MouseLeftButtonDown="Grid_DragLeave">
+
+        <tb:TaskbarIcon 
+            x:Name="TaskIcon"
+            Visibility="Visible"
+            IconSource="Icons/icon_tb.ico"
+            TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu Background="White">
+                    <MenuItem Header="Закрыть приложение" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+
+        <Grid Width="472" Height="354" Margin="42,93,286,53">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--#region KeyPannel Image-->
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="0" Grid.Row="0"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="0" Grid.Row="1"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="0" Grid.Row="2"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="1" Grid.Row="0"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="1" Grid.Row="1"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="1" Grid.Row="2"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="2" Grid.Row="0"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="2" Grid.Row="1"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="2" Grid.Row="2"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="3" Grid.Row="0"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="3" Grid.Row="1"/>
+            <Image Source="/Icons/button_up.png" Height="78" Width="78" Grid.Column="3" Grid.Row="2"/>
+
+            <Image x:Name="SelectButton"  Source="/Icons/button_Down.png" Height="78" Width="78" Grid.Column="0" Grid.Row="0"/>
+            <!--#endregion-->
+            <!--#region KeyPannel Button-->
+            <Button x:Name="Btn0" Grid.Column="0" Grid.Row="0" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn1" Grid.Column="0" Grid.Row="1" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn2" Grid.Column="0" Grid.Row="2" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn3" Grid.Column="1" Grid.Row="0" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn4" Grid.Column="1" Grid.Row="1" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn5" Grid.Column="1" Grid.Row="2" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn6" Grid.Column="2" Grid.Row="0" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn7" Grid.Column="2" Grid.Row="1" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn8" Grid.Column="2" Grid.Row="2" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn9" Grid.Column="3" Grid.Row="0" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn10" Grid.Column="3" Grid.Row="1" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <Button x:Name="Btn11" Grid.Column="3" Grid.Row="2" Style="{StaticResource MenuButton}" Click="KeyPad_Click"/>
+            <!--#endregion-->
+        </Grid>
+        <Grid Margin="558,86,30,46">
+            <TextBox
+                x:Name="ConfigText"
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap"
+                VerticalAlignment="Top"
+                Width="192" 
+                Height="290"
+                Margin="0,10,0,0"
+                Style="{StaticResource TextBoxManualColorStyle}" KeyDown="ConfigText_KeyDown"/>
+            <Button 
+                x:Name="BtnHelp"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                Height="42" 
+                Width="92"
+                Cursor="Hand"
+                Style="{StaticResource MenuButton}" 
+                Click="Bar_Click"/>
+            <Button 
+                x:Name="BtnSave"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                Height="42" 
+                Width="92"
+                Cursor="Hand"
+                Style="{StaticResource MenuButton}" 
+                Click="Bar_Click"/>
+        </Grid>
+
+        <Grid 
+            x:Name="SettingsGrid"
+            Height="208"
+            Width="200" Margin="566,100,34,192">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Icons/settings_dark.png"/>
+            </Grid.Background>
+            <ComboBox
+            x:Name="COM"
+            SelectionChanged="COM_SelectionChanged" Margin="97,0,0,172">
+            </ComboBox>
+            
+            <ComboBox
+            x:Name="AutoConnect"
+            SelectionChanged="COM_SelectionChanged" Margin="97,55,0,117">
+                <ComboBoxItem Content="Выкл"/>
+                <ComboBoxItem Content="Автоподключение"/>
+            </ComboBox>
+            
+            <ComboBox
+            x:Name="AppStartup"
+            SelectionChanged="COM_SelectionChanged" Margin="97,113,0,59">
+                <ComboBoxItem Content="Выкл"/>
+                <ComboBoxItem Content="Открыть окно"/>
+                <ComboBoxItem Content="Запуск в фоне"/>
+            </ComboBox>
+
+            <ComboBox
+            x:Name="TopmostBox"
+            SelectionChanged="COM_SelectionChanged" Margin="97,171,0,1">
+                <ComboBoxItem Content="Внешняя клавиатура"/>
+                <ComboBoxItem Content="Поверх других окон"/>
+            </ComboBox>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ConfigText, Path=Visibility}" Value="Visible">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
+        
+        <Grid Margin="632,0,0,437">
+            <Button 
+                x:Name="BtnClose"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center" 
+                Height="62" 
+                Width="58"
+                Style="{StaticResource MenuButton}" 
+                Click="Bar_Click" Margin="110,0,0,0" Cursor="Hand"/>
+            <Button 
+                x:Name="BtnTray"
+                Height="62" 
+                Width="51"
+                Style="{StaticResource MenuButton}" 
+                Click="Bar_Click"/>
+            <Button 
+                x:Name="BtnSettings"
+                Height="62" 
+                Width="NaN"
+                Cursor="Hand"
+                Style="{StaticResource MenuButton}" 
+                Click="Bar_Click" RenderTransformOrigin="0.5,0.5" Margin="6,0,110,1">
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
