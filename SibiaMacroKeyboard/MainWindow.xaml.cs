@@ -36,7 +36,6 @@ namespace SibiaMacroKeyboard
         string[] ports = SerialPort.GetPortNames();
         byte keyPadSelected = 0;
         bool initialization = true;
-
         Point cursorBuffer = default;
 
         public MainWindow()
